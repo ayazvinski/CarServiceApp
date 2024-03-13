@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Spring Security Example</title>
+    <style>
+        /* Simple CSS for layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .header {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .login-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Welcome in Car Service Online App!</h1>
+    <a class="login-button" th:href="@{/hello}">Login</a>
+</div>
+<div class="content">
+<!--    <p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>-->
+</div>
+</body>
+</html>
