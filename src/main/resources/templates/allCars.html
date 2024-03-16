@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User's Cars</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      text-align: left;
+      padding: 8px;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .edit-link, .delete-link {
+      text-decoration: none;
+      color: #007bff;
+      margin-right: 10px;
+    }
+    .delete-link {
+      color: #ff0000; /* Czerwony kolor dla linku Delete */
+    }
+    .edit-link:hover, .delete-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<h1>User's Cars</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Vin Number</th>
+    <th>Brand</th>
+    <th>Model</th>
+    <th>Year</th>
+    <th>Engine Size</th>
+    <th>Engine Type</th>
+    <th>Color</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="car : ${cars}">
+    <td th:text="${car.carId}">Vin Number</td>
+    <td th:text="${car.brand}">Brand</td>
+    <td th:text="${car.model}">Model</td>
+    <td th:text="${car.year}">Year</td>
+    <td th:text="${car.engineSize}">Engine Size</td>
+    <td th:text="${car.engineType}">Engine Type</td>
+    <td th:text="${car.color}">Color</td>
+    <td>
+      <a th:href="@{/car/edit/{id}(id=${car.id})}" class="edit-link">Edit</a>
+      <a th:href="@{/car/delete/{id}(id=${car.id})}" class="delete-link" onclick="return confirm('Are you sure?')">Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
+
+
+
