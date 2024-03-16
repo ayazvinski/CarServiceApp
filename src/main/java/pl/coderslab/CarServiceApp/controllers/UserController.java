@@ -17,7 +17,6 @@ public class UserController {
 
     private final UserService userService;
 
-
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         User user = new User();
@@ -28,7 +27,7 @@ public class UserController {
     @PostMapping("/register")
     public String createUser(@ModelAttribute User user) {
         userService.register(user);
-        return "register";
+        return "startPage";
     }
 
 }

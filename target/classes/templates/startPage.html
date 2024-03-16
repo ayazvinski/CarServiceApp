@@ -10,8 +10,6 @@
             padding: 0;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
         }
         .header {
             width: 100%;
@@ -25,25 +23,51 @@
         .header h1 {
             margin: 0;
         }
-        .login-button {
+        .login-button, .register-button {
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #007bff; /* Kolor przycisku logowania */
             color: white;
             text-decoration: none;
             border-radius: 5px;
+            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
+            width: 100px; /* Ustawienie tej samej szerokości dla obu przycisków */
+            text-align: center; /* Wyśrodkowanie tekstu w przyciskach */
+        }
+        .register-button {
+            background-color: #85929a; /* Nowy, jaśniejszy kolor przycisku rejestracji */
         }
         .content {
             padding: 20px;
+        }
+        /* New CSS to move buttons to the top right corner */
+        .top-right-buttons {
+            margin-top: 10px;
+            margin-right: 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
         }
     </style>
 </head>
 <body>
 <div class="header">
     <h1>Welcome in Car Service Online App!</h1>
-    <a class="login-button" th:href="@{/hello}">Login</a>
+    <div class="top-right-buttons">
+        <a class="login-button" th:href="@{/hello}">Login</a>
+        <a class="register-button" th:href="@{/register}">Add User</a>
+    </div>
 </div>
 <div class="content">
-<!--    <p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>-->
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+

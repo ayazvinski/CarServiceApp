@@ -3,22 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <title>Rejestracja użytkownika</title>
+    <style>
+        /* Simple CSS for layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        button[type="submit"] {
+            width: calc(100% - 22px); /* Adjusts input width considering padding and border */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
-<h1>Formularz rejestracji</h1>
 <form th:action="@{/register}" th:object="${user}" method="post">
     <div>
         <label for="email">Email:</label>
         <input type="email" id="email" th:field="*{email}" required>
-        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Błąd email</div>
+        <div th:if="${#fields.hasErrors('email')}" class="error-message" th:errors="*{email}">Błąd email</div>
     </div>
     <div>
         <label for="password">Hasło:</label>
         <input type="password" id="password" th:field="*{password}" required>
-        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Błąd hasła</div>
+        <div th:if="${#fields.hasErrors('password')}" class="error-message" th:errors="*{password}">Błąd hasła</div>
     </div>
     <div>
-        <button type="submit">Zarejestruj się</button>
+        <button type="submit">Add User</button>
     </div>
 </form>
 </body>

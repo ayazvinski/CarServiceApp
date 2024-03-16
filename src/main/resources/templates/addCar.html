@@ -2,9 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Rejestracja użytkownika</title>
+    <title>Add New Car</title>
     <style>
-        /* Simple CSS for layout */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -14,7 +13,6 @@
             align-items: center;
             height: 100vh;
         }
-
         form {
             width: 100%;
             max-width: 400px;
@@ -23,38 +21,31 @@
             border-radius: 5px;
             background-color: #f8f9fa;
         }
-
         h1 {
             text-align: center;
             margin-bottom: 20px;
         }
-
         label {
             display: block;
             margin-bottom: 5px;
         }
-
-        input[type="email"],
-        input[type="password"],
-        button[type="submit"] {
-            width: calc(100% - 22px); /* Adjusts input width considering padding and border */
+        input,
+        select {
+            width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-
         button[type="submit"] {
             background-color: #007bff;
             color: white;
             border: none;
             cursor: pointer;
         }
-
         button[type="submit"]:hover {
             background-color: #0056b3;
         }
-
         .error-message {
             color: red;
             margin-top: 5px;
@@ -62,21 +53,40 @@
     </style>
 </head>
 <body>
-<form th:action="@{/register}" th:object="${user}" method="post">
+<form th:action="@{/car/add}" th:object="${car}" method="post">
+    <h1>Add New Car</h1>
     <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" th:field="*{email}" required>
-        <div th:if="${#fields.hasErrors('email')}" class="error-message" th:errors="*{email}">Błąd email</div>
+        <label for="carId">Vin Number:</label>
+        <input type="text" id="carId" th:field="*{carId}" required>
+        <div th:if="${#fields.hasErrors('carId')}" class="error-message" th:errors="*{carId}">Car ID Error</div>
     </div>
     <div>
-        <label for="password">Hasło:</label>
-        <input type="password" id="password" th:field="*{password}" required>
-        <div th:if="${#fields.hasErrors('password')}" class="error-message" th:errors="*{password}">Błąd hasła</div>
+        <label for="brand">Brand:</label>
+        <input type="text" id="brand" th:field="*{brand}">
     </div>
     <div>
-        <button type="submit">Add User</button>
+        <label for="model">Model:</label>
+        <input type="text" id="model" th:field="*{model}">
+    </div>
+    <div>
+        <label for="year">Year:</label>
+        <input type="number" id="year" th:field="*{year}">
+    </div>
+    <div>
+        <label for="engineSize">Engine Size (cc):</label>
+        <input type="number" id="engineSize" th:field="*{engineSize}">
+    </div>
+    <div>
+        <label for="engineType">Engine Type:</label>
+        <input type="text" id="engineType" th:field="*{engineType}">
+    </div>
+    <div>
+        <label for="color">Color:</label>
+        <input type="text" id="color" th:field="*{color}">
+    </div>
+    <div>
+        <button type="submit">Add Car</button>
     </div>
 </form>
 </body>
 </html>
-
