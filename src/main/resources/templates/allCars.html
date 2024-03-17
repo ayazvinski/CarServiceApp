@@ -2,12 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>User's Cars</title>
+  <title>My Cars</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .top-right-buttons {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+    .button-link {
+      padding: 10px 20px;
+      margin-left: 10px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .back-button {
+      background-color: #6c757d;
     }
     table {
       width: 100%;
@@ -39,7 +58,11 @@
   </style>
 </head>
 <body>
-<h1>User's Cars</h1>
+<div class="top-right-buttons">
+  <a th:href="@{/car/add}" class="button-link">Add Car</a>
+  <a href="javascript:history.back()" class="button-link back-button">Back</a>
+</div>
+<h1>My Cars</h1>
 <table>
   <thead>
   <tr>
@@ -71,6 +94,7 @@
 </table>
 </body>
 </html>
+
 
 
 

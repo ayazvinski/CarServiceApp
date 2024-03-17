@@ -39,7 +39,7 @@ public class CarController {
             carService.save(car);
         });
 
-        return "allCars";
+        return "redirect:/car/all";
     }
 
     @GetMapping("/all")

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .top-right-buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .top-right-buttons a, .top-right-buttons form input[type="submit"] {
+            padding: 10px 20px;
+            margin-left: 10px; /* Dodanie odstępu między przyciskami */
+            background-color: #007bff; /* Niebieski kolor tła */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100px;
+            text-align: center;
+            border: none;
+        }
+        .top-right-buttons form input[type="submit"] {
+            background-color: #dc3545; /* Czerwony kolor tła dla przycisku Sign Out */
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Hello <span sec:authentication="name">User</span>!</h1>
+    <div class="top-right-buttons">
+        <a class="my-cars-button" th:href="@{/car/all}">My Cars</a>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+
+
