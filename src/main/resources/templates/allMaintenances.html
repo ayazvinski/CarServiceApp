@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>All Maintenances</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      text-align: left;
+      padding: 8px;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .edit-link, .delete-link {
+      text-decoration: none;
+      margin-right: 10px;
+    }
+    .edit-link {
+      color: #007bff;
+    }
+    .delete-link {
+      color: #ff0000;
+    }
+    .edit-link:hover, .delete-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<h1>All Maintenances</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="maintenance : ${maintenances}">
+    <td th:text="${maintenance.name}">Name</td>
+    <td th:text="${maintenance.description}">Description</td>
+    <td>
+      <a th:href="@{/maintenance/edit/{id}(id=${maintenance.id})}" class="edit-link">Edit</a>
+      <a th:href="@{/maintenance/delete/{id}(id=${maintenance.id})}" class="delete-link" onclick="return confirm('Are you sure?')">Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
