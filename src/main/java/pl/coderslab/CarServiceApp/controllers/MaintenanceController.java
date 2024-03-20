@@ -47,7 +47,7 @@ public class MaintenanceController {
 //    }
 @GetMapping("/all")
 public String showAllMaintenances(Model model) {
-    List<Maintenance> allMaintenances = maintenanceService.findAll(); // Załóżmy, że metoda findAll() istnieje w Twoim serwisie
+    List<Maintenance> allMaintenances = maintenanceService.findAll();
     model.addAttribute("maintenances", allMaintenances);
     return "allMaintenances";
 }
@@ -57,7 +57,7 @@ public String showAllMaintenances(Model model) {
         Maintenance maintenance = maintenanceService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid maintenance Id:" + id));
         model.addAttribute("maintenance", maintenance);
-        return "allMaintenances";
+        return "editMaintenance";
     }
 
     @PostMapping("/edit")
