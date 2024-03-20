@@ -2,18 +2,14 @@ package pl.coderslab.CarServiceApp.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.coderslab.CarServiceApp.entities.Car;
 import pl.coderslab.CarServiceApp.entities.Maintenance;
 import pl.coderslab.CarServiceApp.services.MaintenanceService;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Controller
@@ -40,11 +36,6 @@ public class MaintenanceController {
         return "redirect:/maintenance/add";
     }
 
-//    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-//    public String handleException(SQLIntegrityConstraintViolationException e, RedirectAttributes redirectAttributes) {
-//        redirectAttributes.addFlashAttribute("errorMessage", "A maintenance with this name already exists.");
-//        return "redirect:/maintenance/add";
-//    }
 @GetMapping("/all")
 public String showAllMaintenances(Model model) {
     List<Maintenance> allMaintenances = maintenanceService.findAll();

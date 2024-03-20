@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Scheduled Maintenance</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    form {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      background-color: #f8f9fa;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    select, option {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      height: 150px; /* Ustawienie wysokości, aby pokazać wielokrotny wybór */
+    }
+    button[type="submit"] {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<form th:action="@{/scheduled/maintenance/add}" th:object="${scheduledMaintenance}" method="post">
+  <h1>Add Scheduled Maintenance</h1>
+
+  <!-- Załóżmy, że ScheduledMaintenance ma powiązanie z Car -->
+  <div>
+    <label for="car">Car:</label>
+    <select id="car" th:field="*{car}">
+      <option value="">--Select a car--</option>
+      <option th:each="car : ${cars}" th:value="${car.id}" th:text="${car.brand + ' ' + car.model}"></option>
+    </select>
+  </div>
+
+  <div>
+    <label for="maintenances">Select Maintenances:</label>
+    <select id="maintenances" multiple="multiple" name="maintenanceIds">
+      <option th:each="maintenance : ${allMaintenances}"
+              th:value="${maintenance.id}"
+              th:text="${maintenance.name}">
+      </option>
+    </select>
+  </div>
+
+  <div>
+    <button type="submit">Add Scheduled Maintenance</button>
+  </div>
+</form>
+</body>
+</html>

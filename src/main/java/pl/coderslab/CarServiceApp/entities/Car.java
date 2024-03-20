@@ -5,6 +5,8 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,5 +27,8 @@ public class Car {
     private int engineSize;
     private String engineType;
     private String color;
+
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ScheduledMaintenance> scheduledMaintenances = new ArrayList<>();
 
 }
