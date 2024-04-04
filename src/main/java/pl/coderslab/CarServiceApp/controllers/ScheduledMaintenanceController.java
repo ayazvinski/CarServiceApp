@@ -96,9 +96,13 @@ public class ScheduledMaintenanceController {
 
         if (user != null) {
             List<Car> cars = carService.findCarsByUser(user);
+            List<Long> maintenanceIds = scheduledMaintenance.getItems().stream()
+                    .map(item -> item.getMaintenance().getId())
+                    .toList();
             model.addAttribute("scheduledMaintenance", scheduledMaintenance);
             model.addAttribute("cars", cars);
             model.addAttribute("allMaintenances", maintenanceService.findAll());
+            model.addAttribute("maintenanceIds", maintenanceIds);
         } else {
             model.addAttribute("error", "User not found");
         }
