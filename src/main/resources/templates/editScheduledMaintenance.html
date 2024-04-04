@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Scheduled Maintenance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label, input, select, button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<form th:action="@{/scheduled/maintenance/edit/{id}(id=${scheduledMaintenance.id})}" th:object="${scheduledMaintenance}" method="post">
+    <h1>Edit Scheduled Maintenance</h1>
+
+    <div>
+        <label for="car">Car:</label>
+        <select id="car" th:field="*{car.id}">
+            <option value="">--Select a car--</option>
+            <option th:each="car : ${cars}" th:value="${car.id}" th:text="${car.brand + ' ' + car.model}" th:selected="${scheduledMaintenance.car.id == car.id}"></option>
+        </select>
+    </div>
+
+    <div>
+        <label for="date">Date:</label>
+        <input type="date" id="date" th:field="*{date}" required/>
+    </div>
+
+    <div>
+        <label for="time">Time:</label>
+        <input type="time" id="time" th:field="*{time}" required/>
+    </div>
+
+    <div>
+        <label for="maintenances">Select Maintenances:</label>
+        <select id="maintenances" multiple="multiple" th:field="*{maintenanceIds}">
+            <option th:each="maintenance : ${allMaintenances}" th:value="${maintenance.id}" th:text="${maintenance.name}" th:selected="${scheduledMaintenance.items.contains(maintenance)}"></option>
+        </select>
+    </div>
+
+    <button type="submit">Update Scheduled Maintenance</button>
+</form>
+</body>
+</html>

@@ -25,17 +25,13 @@
       text-align: center;
       margin-bottom: 20px;
     }
-    label {
+    label, input, select {
       display: block;
-      margin-bottom: 5px;
-    }
-    select, option {
       width: 100%;
       padding: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      height: 150px; /* Ustawienie wysokości, aby pokazać wielokrotny wybór */
     }
     button[type="submit"] {
       background-color: #007bff;
@@ -55,7 +51,6 @@
 <form th:action="@{/scheduled/maintenance/add}" th:object="${scheduledMaintenance}" method="post">
   <h1>Add Scheduled Maintenance</h1>
 
-  <!-- Załóżmy, że ScheduledMaintenance ma powiązanie z Car -->
   <div>
     <label for="car">Car:</label>
     <select id="car" th:field="*{car}">
@@ -65,12 +60,19 @@
   </div>
 
   <div>
+    <label for="date">Date:</label>
+    <input type="date" id="date" th:field="*{date}" required/>
+  </div>
+
+  <div>
+    <label for="time">Time:</label>
+    <input type="time" id="time" th:field="*{time}" required/>
+  </div>
+
+  <div>
     <label for="maintenances">Select Maintenances:</label>
     <select id="maintenances" multiple="multiple" name="maintenanceIds">
-      <option th:each="maintenance : ${allMaintenances}"
-              th:value="${maintenance.id}"
-              th:text="${maintenance.name}">
-      </option>
+      <option th:each="maintenance : ${allMaintenances}" th:value="${maintenance.id}" th:text="${maintenance.name}"></option>
     </select>
   </div>
 
@@ -80,3 +82,4 @@
 </form>
 </body>
 </html>
+
