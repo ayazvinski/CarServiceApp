@@ -3,8 +3,10 @@ package pl.coderslab.CarServiceApp.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.coderslab.CarServiceApp.entities.Car;
 import pl.coderslab.CarServiceApp.entities.Maintenance;
 import pl.coderslab.CarServiceApp.entities.ScheduledMaintenance;
+import pl.coderslab.CarServiceApp.entities.User;
 import pl.coderslab.CarServiceApp.repository.MaintenanceRepository;
 import pl.coderslab.CarServiceApp.repository.ScheduledMaintenanceRepository;
 
