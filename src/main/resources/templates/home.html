@@ -50,7 +50,11 @@
 <div class="header">
     <h1>Hello <span sec:authentication="name">User</span>!</h1>
     <div class="top-right-buttons">
+
+        <a class="my-scheduled-maintenances-button" th:href="@{/scheduled/maintenance/all}">Scheduled Maintenances</a>
+
         <a class="my-cars-button" th:href="@{/car/all}">My Cars</a>
+
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
         </form>
@@ -58,5 +62,4 @@
 </div>
 </body>
 </html>
-
 

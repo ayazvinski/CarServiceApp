@@ -17,7 +17,9 @@ import pl.coderslab.CarServiceApp.services.UserService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -72,7 +74,7 @@ public class ScheduledMaintenanceController {
             scheduledMaintenanceService.save(scheduledMaintenance);
 
             redirectAttributes.addFlashAttribute("successMessage", "Scheduled maintenance saved successfully!");
-            return "redirect:/scheduled/maintenance/add";
+            return "redirect:/scheduled/maintenance/all";
         }
         return "addScheduledMaintenance";
     }
@@ -81,7 +83,14 @@ public class ScheduledMaintenanceController {
     public String listScheduledMaintenances(Model model, Authentication authentication) {
         String email = authentication.getName();
         List<ScheduledMaintenance> maintenances = scheduledMaintenanceService.findScheduledMaintenancesForCurrentUser(email);
-        model.addAttribute("scheduledMaintenances", maintenances);
+
+        maintenances.sort(Comparator.comparing(ScheduledMaintenance::getDate)
+                .thenComparing(ScheduledMaintenance::getTime));
+
+        Map<Car, List<ScheduledMaintenance>> groupedByCar = maintenances.stream()
+                .collect(Collectors.groupingBy(ScheduledMaintenance::getCar));
+
+        model.addAttribute("groupedMaintenances", groupedByCar);
         return "allScheduledMaintenance";
     }
 
