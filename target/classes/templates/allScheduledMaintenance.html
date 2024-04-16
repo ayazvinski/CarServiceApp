@@ -21,7 +21,7 @@
         .maintenance-section {
             margin-bottom: 40px;
         }
-        .edit-delete-links a, .add-new-link {
+        .edit-delete-links a, .add-new-link, .calendar-button {
             margin-right: 10px;
             text-decoration: none;
             color: white;
@@ -31,13 +31,16 @@
             cursor: pointer;
             display: inline-block;
         }
-        .edit-delete-links a:hover, .add-new-link:hover {
+        .edit-delete-links a:hover, .add-new-link:hover, .calendar-button:hover {
             background-color: #0056b3;
         }
         .add-new-link {
             position: fixed;
             top: 20px;
             right: 20px;
+        }
+        form {
+            display: inline;
         }
     </style>
 </head>
@@ -49,7 +52,7 @@
     <div th:each="entry : ${groupedMaintenances.entrySet()}" class="maintenance-section">
         <h2>Car: <span th:text="${entry.key.brand} + ' ' + ${entry.key.model}"></span></h2>
         <div th:each="maintenance : ${entry.value}">
-            <h3>Date: <span th:text="${maintenance.date} + ' at ' + ${maintenance.time}"></span></h3>
+            <h3>Date: <span th:text="${#temporals.format(maintenance.date, 'yyyy-MM-dd')} + ' at ' + ${#temporals.format(maintenance.time, 'HH:mm')}"></span></h3>
             <table>
                 <thead>
                 <tr>
@@ -67,6 +70,10 @@
             <div class="edit-delete-links">
                 <a th:href="@{/scheduled/maintenance/edit/{id}(id=${maintenance.id})}">Edit</a>
                 <a th:href="@{/scheduled/maintenance/delete/{id}(id=${maintenance.id})}" onclick="return confirm('Are you sure you want to delete this scheduled maintenance?')">Delete</a>
+                <!-- The form for adding an event to Google Calendar -->
+                <form th:action="@{/scheduled/maintenance/add-to-calendar/{id}(id=${maintenance.id})}" method="post">
+                    <button type="submit" class="calendar-button">Add to Calendar</button>
+                </form>
             </div>
         </div>
     </div>
@@ -77,6 +84,7 @@
 </div>
 </body>
 </html>
+
 
 
 

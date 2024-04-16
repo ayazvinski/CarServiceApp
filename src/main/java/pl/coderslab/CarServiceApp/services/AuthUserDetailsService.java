@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import pl.coderslab.CarServiceApp.entities.User;
 import pl.coderslab.CarServiceApp.repository.UserRepository;
 import pl.coderslab.CarServiceApp.security.AuthUserDetails;

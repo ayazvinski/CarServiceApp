@@ -20,6 +20,8 @@ import pl.coderslab.CarServiceApp.services.AuthUserDetailsService;
 public class WebSecurityConfig {
 
     private final UserRepository userRepository;
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -49,6 +51,7 @@ public class WebSecurityConfig {
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class).build();
     }
+
 
 
 }

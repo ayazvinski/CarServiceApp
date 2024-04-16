@@ -23,6 +23,19 @@ public class UserService {
         return userRepository.findByEmail(username);
     }
 
+    public String getAccessTokenForUser(User user) {
+        // Assuming the accessToken field is always up-to-date and valid
+        return user.getAccessToken(); // Simply return the access token
+    }
+
+    public void saveUserAccessToken(String username, String accessToken) {
+        User user = userRepository.findByEmail(username).orElse(null);
+        if (user != null) {
+            user.setAccessToken(accessToken);
+            userRepository.save(user);
+        }
+    }
+
 
 
 }

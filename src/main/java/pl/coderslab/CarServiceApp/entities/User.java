@@ -19,4 +19,7 @@ public class User {
     @NotNull
     @NotEmpty
     private String password;
+
+    private String accessToken;
+    private String refreshToken;
 }

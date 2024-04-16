@@ -10,11 +10,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.coderslab.CarServiceApp.entities.*;
-import pl.coderslab.CarServiceApp.services.CarService;
-import pl.coderslab.CarServiceApp.services.MaintenanceService;
-import pl.coderslab.CarServiceApp.services.ScheduledMaintenanceService;
-import pl.coderslab.CarServiceApp.services.UserService;
+import pl.coderslab.CarServiceApp.services.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Comparator;
@@ -30,6 +29,8 @@ public class ScheduledMaintenanceController {
     private final MaintenanceService maintenanceService;
     private final UserService userService;
     private final CarService carService;
+    private final CalendarService calendarService;
+
 
     @GetMapping("/add")
     public String showAddForm(Model model) {
@@ -97,7 +98,7 @@ public class ScheduledMaintenanceController {
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         ScheduledMaintenance scheduledMaintenance = scheduledMaintenanceService.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid scheduledMaintenance Id:" + id));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid scheduledMaintenance Id: " + id));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -107,7 +108,16 @@ public class ScheduledMaintenanceController {
             List<Car> cars = carService.findCarsByUser(user);
             List<Long> maintenanceIds = scheduledMaintenance.getItems().stream()
                     .map(item -> item.getMaintenance().getId())
-                    .toList();
+                    .collect(Collectors.toList());
+
+            // Format date and time to ensure they are passed correctly to the form
+            String formattedDate = scheduledMaintenance.getDate().toString();
+            String formattedTime = scheduledMaintenance.getTime().toString();
+
+            // Add formatted date and time to the model
+            model.addAttribute("formattedDate", formattedDate);
+            model.addAttribute("formattedTime", formattedTime);
+
             model.addAttribute("scheduledMaintenance", scheduledMaintenance);
             model.addAttribute("cars", cars);
             model.addAttribute("allMaintenances", maintenanceService.findAll());
@@ -116,7 +126,6 @@ public class ScheduledMaintenanceController {
             model.addAttribute("error", "User not found");
         }
         return "editScheduledMaintenance";
-
     }
 
     @PostMapping("/edit/{id}")
@@ -166,6 +175,7 @@ public class ScheduledMaintenanceController {
         return "editScheduledMaintenance";
     }
 
+
     @GetMapping("/delete/{id}")
     public String deleteScheduledMaintenance(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         ScheduledMaintenance scheduledMaintenance = scheduledMaintenanceService.findById(id)
@@ -175,4 +185,34 @@ public class ScheduledMaintenanceController {
         return "redirect:/scheduled/maintenance/all";
     }
 
+    @PostMapping("/add-to-calendar/{id}")
+    public String addToCalendar(@PathVariable Long id, RedirectAttributes redirectAttributes, Authentication authentication) {
+
+        Logger logger = LoggerFactory.getLogger(ScheduledMaintenanceController.class);
+
+        try {
+            logger.debug("Finding scheduled maintenance with ID: {}", id);
+            ScheduledMaintenance scheduledMaintenance = scheduledMaintenanceService.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid Scheduled Maintenance ID: " + id));
+
+            logger.debug("Getting email from authentication");
+            String email = authentication.getName();
+            logger.debug("Finding user by email: {}", email);
+            User user = userService.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+            logger.debug("Retrieving access token for user: {}", user.getEmail());
+            String accessToken = userService.getAccessTokenForUser(user);
+            logger.debug("Access token: {}", accessToken);
+
+            logger.debug("Adding event to Google Calendar");
+            calendarService.createCalendarEvent(accessToken, scheduledMaintenance);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Event added to Google Calendar successfully!");
+            logger.debug("Event added successfully");
+        } catch (Exception e) {
+            logger.error("Failed to add event to Google Calendar", e);
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to add event to Google Calendar: " + e.getMessage());
+        }
+        return "redirect:/scheduled/maintenance/all";
+    }
 }
