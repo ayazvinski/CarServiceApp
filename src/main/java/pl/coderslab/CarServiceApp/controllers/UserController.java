@@ -61,7 +61,7 @@ public class UserController {
     public String saveAccessToken(@RequestParam("code") String code, Principal principal) {
         String accessToken = userService.exchangeCodeForAccessToken(code);
         userService.saveUserAccessToken(principal.getName(), accessToken);
-        return "redirect:/";  // Redirects to the root URL which is usually mapped to the home page
+        return "redirect:/home";  // Redirects to the root URL which is usually mapped to the home page
     }
 
 }

@@ -16,6 +16,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RestTemplate restTemplate;
@@ -41,17 +42,17 @@ public class UserService {
     }
 
     public String getAccessTokenForUser(User user) {
-        return user.getAccessToken(); // Simply return the access token
+        return user.getAccessToken();
     }
 
     public void saveUserAccessToken(String email, String accessToken) {
-        Optional<User> userOptional = userRepository.findByEmail(email);  // Find the user by email
+        Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            user.setAccessToken(accessToken);  // Set the new access token
-            userRepository.save(user);  // Save the user entity with the updated token
+            user.setAccessToken(accessToken);
+            userRepository.save(user);
         } else {
-            throw new RuntimeException("User not found with email: " + email);  // Handle case where user is not found
+            throw new RuntimeException("User not found with email: " + email);
         }
     }
 
@@ -59,7 +60,7 @@ public class UserService {
         String url = "https://oauth2.googleapis.com/token";
         Map<String, String> requestBody = Map.of(
                 "code", code,
-                "client_id", clientId,  // Make sure these are pulled from @Value or another config
+                "client_id", clientId,
                 "client_secret", clientSecret,
                 "redirect_uri", redirectUri,
                 "grant_type", "authorization_code"

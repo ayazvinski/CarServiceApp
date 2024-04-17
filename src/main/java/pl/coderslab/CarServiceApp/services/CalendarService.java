@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 @Service
@@ -30,12 +31,12 @@ public class CalendarService {
         LocalDateTime startDateTime = LocalDateTime.of(maintenance.getDate(), maintenance.getTime());
         LocalDateTime endDateTime = startDateTime.plusHours(1);
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        String startString = startDateTime.atZone(ZoneId.systemDefault()).format(dateTimeFormatter);
-        String endString = endDateTime.atZone(ZoneId.systemDefault()).format(dateTimeFormatter);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"); // Including 'Z' to indicate UTC
+        String startString = startDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).format(dateTimeFormatter);
+        String endString = endDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).format(dateTimeFormatter);
 
-        EventDateTime start = new EventDateTime().setDateTime(new com.google.api.client.util.DateTime(startString)).setTimeZone(ZoneId.systemDefault().toString());
-        EventDateTime end = new EventDateTime().setDateTime(new com.google.api.client.util.DateTime(endString)).setTimeZone(ZoneId.systemDefault().toString());
+        EventDateTime start = new EventDateTime().setDateTime(new com.google.api.client.util.DateTime(startString)).setTimeZone("UTC");
+        EventDateTime end = new EventDateTime().setDateTime(new com.google.api.client.util.DateTime(endString)).setTimeZone("UTC");
         event.setStart(start);
         event.setEnd(end);
 
@@ -53,4 +54,5 @@ public class CalendarService {
         }
     }
 }
+
 

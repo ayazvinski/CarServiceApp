@@ -33,7 +33,7 @@ public class MaintenanceController {
             result.rejectValue("name", "name.error", "Maintenance with this name already exists.");
             return "addMaintenance";
         }
-        return "redirect:/maintenance/add";
+        return "redirect:/maintenance/all";
     }
 
 @GetMapping("/all")

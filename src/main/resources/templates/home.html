@@ -42,15 +42,22 @@
         .top-right-buttons form input[type="submit"] {
             background-color: #dc3545;
         }
+        .top-right-buttons .get-token-button { /* Increased specificity */
+            background-color: #28a745; /* Green color */
+        }
+        .maintenances-catalog-button { /* Specific style for the Maintenances Catalog button */
+            background-color: #17a2b8; /* Bootstrap info color for differentiation */
+        }
     </style>
 </head>
 <body>
 <div class="header">
     <h1>Hello <span sec:authentication="name">User</span>!</h1>
     <div class="top-right-buttons">
+        <a class="maintenances-catalog-button" th:href="@{/maintenance/all}">Maintenances Catalog</a>
         <a class="my-scheduled-maintenances-button" th:href="@{/scheduled/maintenance/all}">Scheduled Maintenances</a>
         <a class="my-cars-button" th:href="@{/car/all}">My Cars</a>
-        <a class="get-token-button" th:href="@{/get-token}" >Get Token</a>
+        <a class="get-token-button" th:href="@{/get-token}">Get Token</a>
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
         </form>
@@ -58,5 +65,7 @@
 </div>
 </body>
 </html>
+
+
 
 
