@@ -17,6 +17,7 @@ public class CarService {
     public Car save(Car car) {
         return carRepository.save(car);
     }
+
     public Optional<Car> findById(Long id) {
         return carRepository.findById(id);
     }
