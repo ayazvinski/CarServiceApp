@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Rejestracja użytkownika</title>
     <style>
-        /* Simple CSS for layout */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -36,6 +35,7 @@
 
         input[type="email"],
         input[type="password"],
+        select,
         button[type="submit"] {
             width: calc(100% - 22px); /* Adjusts input width considering padding and border */
             padding: 10px;
@@ -63,6 +63,7 @@
 </head>
 <body>
 <form th:action="@{/register}" th:object="${user}" method="post">
+    <h1>Rejestracja użytkownika</h1>
     <div>
         <label for="email">Email:</label>
         <input type="email" id="email" th:field="*{email}" required>
@@ -74,9 +75,16 @@
         <div th:if="${#fields.hasErrors('password')}" class="error-message" th:errors="*{password}">Błąd hasła</div>
     </div>
     <div>
-        <button type="submit">Add User</button>
+        <label for="role">Rola:</label>
+        <select id="role" th:field="*{role}">
+            <option th:each="role : ${roles}" th:value="${role.key}" th:text="${role.value}"></option>
+        </select>
+    </div>
+    <div>
+        <button type="submit">Dodaj użytkownika</button>
     </div>
 </form>
 </body>
 </html>
+
 

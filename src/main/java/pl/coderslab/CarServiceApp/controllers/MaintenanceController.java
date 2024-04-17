@@ -2,6 +2,7 @@ package pl.coderslab.CarServiceApp.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,9 +17,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/maintenance")
 public class MaintenanceController {
-    public final MaintenanceService maintenanceService;
+    private final MaintenanceService maintenanceService;
 
     @GetMapping("/add")
+    @Secured("ROLE_Admin") // Ensure only admins can access the add maintenance form
     public String showRegistrationForm(Model model) {
         Maintenance maintenance = new Maintenance();
         model.addAttribute("maintenance", maintenance);
@@ -26,32 +28,37 @@ public class MaintenanceController {
     }
 
     @PostMapping("/add")
-    public String createMaintenance(@ModelAttribute Maintenance maintenance, BindingResult result) {
+    @Secured("ROLE_Admin") // Ensure only admins can add maintenance
+    public String createMaintenance(@ModelAttribute Maintenance maintenance, BindingResult result, RedirectAttributes redirectAttributes) {
         try {
             maintenanceService.save(maintenance);
         } catch (DataIntegrityViolationException e) {
             result.rejectValue("name", "name.error", "Maintenance with this name already exists.");
             return "addMaintenance";
         }
+        redirectAttributes.addFlashAttribute("successMessage", "Maintenance added successfully!");
         return "redirect:/maintenance/all";
     }
 
-@GetMapping("/all")
-public String showAllMaintenances(Model model) {
-    List<Maintenance> allMaintenances = maintenanceService.findAll();
-    model.addAttribute("maintenances", allMaintenances);
-    return "allMaintenances";
-}
+    @GetMapping("/all")
+    @Secured("ROLE_Admin") // Ensure only admins can view all maintenances
+    public String showAllMaintenances(Model model) {
+        List<Maintenance> allMaintenances = maintenanceService.findAll();
+        model.addAttribute("maintenances", allMaintenances);
+        return "allMaintenances";
+    }
 
     @GetMapping("/edit/{id}")
+    @Secured("ROLE_Admin") // Ensure only admins can access the edit form
     public String showEditForm(@PathVariable Long id, Model model) {
         Maintenance maintenance = maintenanceService.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid maintenance Id:" + id));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid maintenance Id: " + id));
         model.addAttribute("maintenance", maintenance);
         return "editMaintenance";
     }
 
     @PostMapping("/edit")
+    @Secured("ROLE_Admin") // Ensure only admins can edit maintenance
     public String editMaintenance(@ModelAttribute Maintenance maintenance, RedirectAttributes redirectAttributes) {
         maintenanceService.save(maintenance);
         redirectAttributes.addFlashAttribute("successMessage", "Maintenance updated successfully!");
@@ -59,6 +66,7 @@ public String showAllMaintenances(Model model) {
     }
 
     @GetMapping("/delete/{id}")
+    @Secured("ROLE_Admin") // Ensure only admins can delete maintenance
     public String deleteMaintenance(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             maintenanceService.delete(id);
@@ -68,6 +76,5 @@ public String showAllMaintenances(Model model) {
         }
         return "redirect:/maintenance/all";
     }
-
-
 }
+

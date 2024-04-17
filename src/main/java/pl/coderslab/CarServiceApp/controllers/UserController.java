@@ -14,6 +14,7 @@ import pl.coderslab.CarServiceApp.entities.User;
 import pl.coderslab.CarServiceApp.services.UserService;
 
 import java.security.Principal;
+import java.util.Map;
 
 
 @Controller
@@ -25,7 +26,7 @@ public class UserController {
     private String clientId;
 
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
-    private String clientSecret;  // Generally, you won't need the client secret for building the authorization URI
+    private String clientSecret;
 
     @Value("${spring.security.oauth2.client.registration.google.scope}")
     private String scope;
@@ -49,6 +50,7 @@ public class UserController {
     public String showRegistrationForm(Model model) {
         User user = new User();
         model.addAttribute("user", user);
+        model.addAttribute("roles", Map.of("User", "User", "Admin", "Admin"));
         return "register";
     }
 
@@ -61,7 +63,7 @@ public class UserController {
     public String saveAccessToken(@RequestParam("code") String code, Principal principal) {
         String accessToken = userService.exchangeCodeForAccessToken(code);
         userService.saveUserAccessToken(principal.getName(), accessToken);
-        return "redirect:/home";  // Redirects to the root URL which is usually mapped to the home page
+        return "redirect:/home";
     }
 
 }

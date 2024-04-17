@@ -21,5 +21,5 @@ public class User {
     private String password;
 
     private String accessToken;
-    private String refreshToken;
+    private String role;
 }

@@ -22,29 +22,30 @@ public class WebSecurityConfig {
 
     private final UserRepository userRepository;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/start","login","/register").permitAll()
-                        .anyRequest().authenticated()
-                )
+                        .requestMatchers("/", "/start", "/login", "/register").permitAll()
+                        .requestMatchers("/maintenance/**").hasAuthority("ROLE_Admin")
+                        .anyRequest().authenticated())
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .permitAll()
-                )
-                .logout((logout) -> logout.permitAll());
+                        .permitAll())
+                .logout((logout) -> logout.permitAll())
+                .exceptionHandling((exceptions) -> exceptions
+                        .accessDeniedPage("/home?error='Access Denied'"));
 
         return http.build();
     }
 
     @Bean
-    public UserDetailsService authUserDetailsService(UserRepository userRepository) {
-        return new AuthUserDetailsService(userRepository);
+    public UserDetailsService authUserDetailsService() {
+        return new AuthUserDetailsService(userRepository, passwordEncoder());
     }
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -57,7 +58,4 @@ public class WebSecurityConfig {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-
-
-
 }
