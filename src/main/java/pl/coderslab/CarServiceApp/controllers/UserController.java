@@ -8,9 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pl.coderslab.CarServiceApp.entities.User;
 import pl.coderslab.CarServiceApp.services.UserService;
+
+import java.security.Principal;
 
 
 @Controller
@@ -37,7 +40,7 @@ public class UserController {
                 "&response_type=code" +
                 "&scope=" + scope +
                 "&redirect_uri=" + redirectUri +
-                "&access_type=offline";
+                "&access_type=offline";  // Ensure offline access if you need a refresh token
 
         return new ModelAndView("redirect:" + authorizationUri);
     }
@@ -54,7 +57,12 @@ public class UserController {
         userService.register(user);
         return "startPage";
     }
-
+    @GetMapping("/login/oauth2/code/google")
+    public String saveAccessToken(@RequestParam("code") String code, Principal principal) {
+        String accessToken = userService.exchangeCodeForAccessToken(code);
+        userService.saveUserAccessToken(principal.getName(), accessToken);
+        return "redirect:/";  // Redirects to the root URL which is usually mapped to the home page
+    }
 
 }
 
