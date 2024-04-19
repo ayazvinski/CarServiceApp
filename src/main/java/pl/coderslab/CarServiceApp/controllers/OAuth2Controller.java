@@ -30,16 +30,16 @@ public class OAuth2Controller {
     public ModelAndView redirectToGoogleAuthorization() {
         ClientRegistration registration = clientRegistrationRepository.findByRegistrationId("google");
         String scopes = registration.getScopes().stream()
-                .collect(Collectors.joining(" ")); // Correctly join scopes without extra commas
+                .collect(Collectors.joining(" "));
 
-        System.out.println("Requesting scopes: " + scopes); // Debug log to check scopes
+        System.out.println("Requesting scopes: " + scopes);
 
         String authorizationUri = OAuth2AuthorizationRequest.authorizationCode()
                 .authorizationUri(registration.getProviderDetails().getAuthorizationUri())
                 .clientId(registration.getClientId())
                 .redirectUri(registration.getRedirectUri())
                 .scope(scopes)
-                .state("state") // This should be a unique and unguessable value
+                .state("state")
                 .build()
                 .getAuthorizationRequestUri();
 
@@ -49,16 +49,16 @@ public class OAuth2Controller {
 
     @GetMapping("/callback")
     public String callback(Authentication authentication) {
-        // Retrieve the OAuth2AuthorizedClient
+
         OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
                 "google", authentication.getName());
 
         if (authorizedClient != null) {
             String accessToken = authorizedClient.getAccessToken().getTokenValue();
-            // Assume UserService will handle the storage of the token
+
             userService.saveUserAccessToken(authentication.getName(), accessToken);
         }
 
-        return "redirect:/home"; // Redirect user to the home page or a dashboard
+        return "redirect:/home";
     }
 }

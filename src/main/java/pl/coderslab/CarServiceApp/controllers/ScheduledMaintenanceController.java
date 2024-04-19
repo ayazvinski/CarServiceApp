@@ -110,11 +110,9 @@ public class ScheduledMaintenanceController {
                     .map(item -> item.getMaintenance().getId())
                     .collect(Collectors.toList());
 
-            // Format date and time to ensure they are passed correctly to the form
             String formattedDate = scheduledMaintenance.getDate().toString();
             String formattedTime = scheduledMaintenance.getTime().toString();
 
-            // Add formatted date and time to the model
             model.addAttribute("formattedDate", formattedDate);
             model.addAttribute("formattedTime", formattedTime);
 

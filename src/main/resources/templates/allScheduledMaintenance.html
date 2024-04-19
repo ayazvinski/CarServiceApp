@@ -83,7 +83,7 @@
             <div class="edit-delete-links">
                 <a th:href="@{/scheduled/maintenance/edit/{id}(id=${maintenance.id})}">Edit</a>
                 <a th:href="@{/scheduled/maintenance/delete/{id}(id=${maintenance.id})}" onclick="return confirm('Are you sure you want to delete this scheduled maintenance?')">Delete</a>
-                <!-- The form for adding an event to Google Calendar -->
+
                 <form th:action="@{/scheduled/maintenance/add-to-calendar/{id}(id=${maintenance.id})}" method="post">
                     <button type="submit" class="calendar-button">Add to Calendar</button>
                 </form>

@@ -25,7 +25,7 @@ public class UserService {
     private String clientId;
 
     @Value("${spring.security.oauth2.client.registration.google.client-secret}")
-    private String clientSecret;  // Generally, you won't need the client secret for building the authorization URI
+    private String clientSecret;
 
     @Value("${spring.security.oauth2.client.registration.google.scope}")
     private String scope;

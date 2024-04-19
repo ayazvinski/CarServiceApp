@@ -41,7 +41,7 @@ public class UserController {
                 "&response_type=code" +
                 "&scope=" + scope +
                 "&redirect_uri=" + redirectUri +
-                "&access_type=offline";  // Ensure offline access if you need a refresh token
+                "&access_type=offline";
 
         return new ModelAndView("redirect:" + authorizationUri);
     }

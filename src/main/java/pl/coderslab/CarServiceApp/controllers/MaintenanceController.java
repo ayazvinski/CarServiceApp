@@ -41,7 +41,7 @@ public class MaintenanceController {
     }
 
     @GetMapping("/all")
-    @Secured("ROLE_Admin") // Ensure only admins can view all maintenances
+    @Secured("ROLE_Admin")
     public String showAllMaintenances(Model model) {
         List<Maintenance> allMaintenances = maintenanceService.findAll();
         model.addAttribute("maintenances", allMaintenances);
@@ -49,7 +49,7 @@ public class MaintenanceController {
     }
 
     @GetMapping("/edit/{id}")
-    @Secured("ROLE_Admin") // Ensure only admins can access the edit form
+    @Secured("ROLE_Admin")
     public String showEditForm(@PathVariable Long id, Model model) {
         Maintenance maintenance = maintenanceService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid maintenance Id: " + id));
@@ -58,7 +58,7 @@ public class MaintenanceController {
     }
 
     @PostMapping("/edit")
-    @Secured("ROLE_Admin") // Ensure only admins can edit maintenance
+    @Secured("ROLE_Admin")
     public String editMaintenance(@ModelAttribute Maintenance maintenance, RedirectAttributes redirectAttributes) {
         maintenanceService.save(maintenance);
         redirectAttributes.addFlashAttribute("successMessage", "Maintenance updated successfully!");
@@ -66,7 +66,7 @@ public class MaintenanceController {
     }
 
     @GetMapping("/delete/{id}")
-    @Secured("ROLE_Admin") // Ensure only admins can delete maintenance
+    @Secured("ROLE_Admin")
     public String deleteMaintenance(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             maintenanceService.delete(id);

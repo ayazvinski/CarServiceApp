@@ -54,7 +54,7 @@
 <div class="header">
     <h1>Hello <span sec:authentication="name">User</span>!</h1>
     <div class="top-right-buttons">
-        <!-- Only show link if user is admin -->
+
         <a th:if="${#authorization.expression('hasAuthority(''ROLE_Admin'')')}" class="maintenances-catalog-button" th:href="@{/maintenance/all}">Maintenances Catalog</a>
         <a class="my-scheduled-maintenances-button" th:href="@{/scheduled/maintenance/all}">Scheduled Maintenances</a>
         <a class="my-cars-button" th:href="@{/car/all}">My Cars</a>

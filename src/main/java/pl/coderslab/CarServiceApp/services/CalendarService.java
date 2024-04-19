@@ -31,7 +31,7 @@ public class CalendarService {
         LocalDateTime startDateTime = LocalDateTime.of(maintenance.getDate(), maintenance.getTime());
         LocalDateTime endDateTime = startDateTime.plusHours(1);
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"); // Including 'Z' to indicate UTC
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
         String startString = startDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).format(dateTimeFormatter);
         String endString = endDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).format(dateTimeFormatter);
 
