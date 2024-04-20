@@ -58,4 +58,5 @@ public class WebSecurityConfig {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
 }
